@@ -1,0 +1,35 @@
+<?php
+// Chuck Norris
+    $MESSAGE = stream_get_line(STDIN, 100, "\n");
+    error_log("MESSAGE:$MESSAGE");
+    $chars = str_split($MESSAGE);
+    $bin = "";                                                            
+    for ($i = 0; $i < count($chars); ++$i) {
+        $bin .= sprintf("%07d", decbin(ord($chars[$i])));
+    }
+    error_log("string in binary format: $bin\n\noutput:");
+    
+    $answer = "";                                                      
+    $bit = "";
+    $index = 0; 
+    while($index < strlen($bin)) {
+        $count = 1;            
+        $bit = $bin[$index];                               
+        while ($index < strlen($bin)) {
+            $count = 1;
+            $answer .= ($bit == "1" ? "0 " : "00 ");                      
+            while (++$index < strlen($bin)) {
+                if ($bin[$index] == $bit) {
+                    $count++;
+                } else {
+                    break;
+                }        
+            }
+            $answer .= sprintf("%0".$count."d", 0);                       
+            $bit = ($bit == "1" ? "0" : "1");                                                   
+            if ($index < strlen($bin)) { $answer .= " "; }                  
+        }
+    }
+    
+    echo("$answer\n");
+?>
